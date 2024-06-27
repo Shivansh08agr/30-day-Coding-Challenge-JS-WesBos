@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Hold Shift to Check Multiple Checkboxes</title>
+  <link rel="icon" href="https://fav.farm/🔥" />
+</head>
+<body>
+  <style>
+    h1{
+      font-size: 4.5rem;
+      text-align: center;
+    }
+    .fluent-emoji-flat--up-arrow {
+  display: inline-block;
+  height: 4em;
+  width: 4em;
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cg fill='none'%3E%3Cpath fill='%2300000069' d='M2 6a4 4 0 0 1 4-4h20a4 4 0 0 1 4 4v20a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4z'/%3E%3Cpath fill='white' d='M15.307 7.667a1 1 0 0 1 1.386 0l5.313 5.113c.649.624.207 1.72-.693 1.72H18.25a.25.25 0 0 0-.25.25v9.75a1 1 0 0 1-1 1h-2a1 1 0 0 1-1-1v-9.75a.25.25 0 0 0-.25-.25h-3.063c-.9 0-1.342-1.096-.693-1.72z'/%3E%3C/g%3E%3C/svg%3E");
+}
+  .fluent-emoji-flat--up-arrow:hover {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cg fill='none'%3E%3Cpath fill='%2300000080' d='M2 6a4 4 0 0 1 4-4h20a4 4 0 0 1 4 4v20a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4z'/%3E%3Cpath fill='white' d='M15.307 7.667a1 1 0 0 1 1.386 0l5.313 5.113c.649.624.207 1.72-.693 1.72H18.25a.25.25 0 0 0-.25.25v9.75a1 1 0 0 1-1 1h-2a1 1 0 0 1-1-1v-9.75a.25.25 0 0 0-.25-.25h-3.063c-.9 0-1.342-1.096-.693-1.72z'/%3E%3C/g%3E%3C/svg%3E");
+  cursor: pointer;
+}
+    html {
+      font-family: sans-serif;
+      background: #ffc600;
+    }
+
+    .inbox {
+      max-width: 90%;
+      margin: 50px auto;
+      background: white;
+      border-radius: 5px;
+      box-shadow: 10px 10px 0 rgba(0,0,0,0.1);
+    }
+
+    .item {
+      display: flex;
+      align-items: center;
+      border-bottom: 1px solid #F1F1F1;
+    }
+
+    .item:last-child {
+      border-bottom: 0;
+    }
+
+    input:checked + p {
+      background: #F9F9F9;
+      text-decoration: line-through;
+    }
+
+    input[type="checkbox"] {
+      margin: 20px;
+    }
+
+    p {
+      margin: 0;
+      padding: 20px;
+      transition: background 0.2s;
+      flex: 1;
+      font-family:'helvetica neue';
+      font-size: 1.8rem;
+      font-weight: 200;
+      border-left: 1px solid #D1E2FF;
+    }
+    .insert{
+      height: 4rem;
+        display: flex;
+        justify-content: center;
+    }
+    .insert #insertItem{
+        width: 85%;
+        font-size: large;
+        border-radius: 10px;
+        padding: 0.29rem 0.8rem;
+        border: 1px solid #D1E2FF;
+        font-size: 1.5rem;
+    }
+  </style>
+  <h1>CheckBox</h1>
+  <div class="inbox">
+    <div class="item">
+      <input type="checkbox">
+      <p>This is an inbox layout.</p>
+    </div>
+    <div class="item">
+      <input type="checkbox">
+      <p>Check one item</p>
+    </div>
+    <div class="item">
+      <input type="checkbox">
+      <p>Hold down your Shift key</p>
+    </div>
+    <div class="item">
+      <input type="checkbox">
+      <p>Check a lower item</p>
+    </div>
+    <div class="item">
+      <input type="checkbox">
+      <p>Everything in between should also be set to checked</p>
+    </div>
+    <div class="item">
+      <input type="checkbox">
+      <p>Try to do it without any libraries</p>
+    </div>
+    <div class="item">
+      <input type="checkbox">
+      <p>Just regular JavaScript</p>
+    </div>
+    <div class="item">
+      <input type="checkbox">
+      <p>Good Luck!</p>
+    </div>
+    <div class="item">
+      <input type="checkbox">
+      <p>Don't forget to tweet your result!</p>
+    </div>
+  </div>
+  <div class="insert">
+    <textarea name="insertItem" id="insertItem" placeholder="add a new task..."></textarea>
+    <span class="fluent-emoji-flat--up-arrow button"></span>
+  </div>
+
+<script>
+    const parent= document.querySelector(".inbox");
+    const inputs= document.querySelectorAll('input[type= "checkbox"]');
+    console.log(inputs);
+    let lastChecked;
+    function checked(e){
+        let inBetween=false;
+        if(e.shiftKey && this.checked){
+            inputs.forEach(input=>{
+                console.log(input)
+                if(input===this || input=== lastChecked){
+                    inBetween= !inBetween;
+                    console.log("hi");
+                }
+                if(inBetween) input.checked= true;
+            })
+        }
+        lastChecked= this;
+    }
+    inputs.forEach(input=> input.addEventListener('click', checked));
+    const text = document.querySelector("#insertItem");
+const button = document.querySelector(".button");
+button.addEventListener("click", () => {
+    if(text.value.trim()) {
+        const newTask = document.createElement("div");
+        newTask.classList.add("item");
+        newTask.innerHTML = `
+            <input type="checkbox">
+            <p>${text.value}</p>
+        `;
+        parent.append(newTask);
+        text.value = "";
+    }
+});
+
+
+</script>
+</body>
+</html>

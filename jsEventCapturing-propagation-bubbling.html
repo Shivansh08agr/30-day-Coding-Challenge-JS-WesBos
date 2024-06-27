@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Understanding JavaScript's Capture</title>
+  <link rel="icon" href="https://fav.farm/✅" />
+</head>
+<body class="bod">
+
+  <div class="one">
+    <div class="two">
+      <div class="three">
+      </div>
+    </div>
+  </div>
+
+<style>
+  html {
+    box-sizing: border-box;
+  }
+
+  *, *:before, *:after {
+    box-sizing: inherit;
+  }
+
+  div {
+    width: 100%;
+    padding: 100px;
+  }
+
+  .one {
+    background: thistle;
+  }
+
+  .two {
+    background: mistyrose;
+  }
+
+  .three {
+    background: coral;
+  }
+  button{
+    padding: 10px;
+    margin-top: 10px;
+    width: 22rem;
+    font-size: 2rem;
+    cursor: pointer;
+  }
+</style>
+
+<button>Single Click Button</button>
+<script>
+  const divs = document.querySelectorAll('div');
+  const button = document.querySelector('button');
+
+  function logText(e) {
+    console.log(this.classList.value);
+    // e.stopPropagation(); // stop bubbling!/ capturing!
+    // console.log(this);
+  }
+// bubbling means the event will bubble up from the innermost element to the outermost element when you click on the innermost element...for e.g. here if you click on div.three, the event will bubble up to div.two and then to div.one then to body and so on...you can stop that by using e.stopPropagation()...if you want to capture the event from the outermost element to the innermost element set the capture to true in the addEventListener method.
+  divs.forEach(div => div.addEventListener('click', logText, {
+    capture: false, // default...but you can set it to true and make it capture...ie bubble inwards
+    once: true // unbinds itself after one click (ie no event listening after one click)
+  }));
+
+  button.addEventListener('click', () => {
+    console.log('Click!!!');
+  }, {
+    once: true
+  });
+
+</script>
+</body>
+</html>

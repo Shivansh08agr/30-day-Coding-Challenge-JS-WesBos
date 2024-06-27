@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Video Speed Scrubber</title>
+    <link rel="icon" href="https://fav.farm/🔥" />
+    <style>
+        body {
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background: #4C4C4C url('https://unsplash.it/1500/900?image=1021');
+            background-size: cover;
+            font-family: sans-serif;
+        }
+
+        .wrapper {
+            width: 850px;
+            display: flex;
+        }
+
+        video {
+            box-shadow: 0 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+
+        .speed {
+            background: #efefef;
+            flex: 1;
+            display: flex;
+            align-items: flex-start;
+            margin: 10px;
+            border-radius: 50px;
+            box-shadow: 0 0 1px 3px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+
+        .speed-bar {
+            width: 100%;
+            background: linear-gradient(-170deg, #2376ae 0%, #c16ecf 100%);
+            text-shadow: 1px 1px 0 rgba(0, 0, 0, 0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2px;
+            color: white;
+            height: 20%;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="wrapper">
+        <video class="flex" width="765" height="430" src='./652333414.mp4' loop controls></video>
+        <div class="speed">
+            <div class="speed-bar">1x</div>
+        </div>
+    </div>
+
+    <script>
+        const speed = document.querySelector('.speed');
+        const bar = document.querySelector('.speed-bar');
+        const video = document.querySelector('.flex');
+
+        function drag(e){
+            const y = e.pageY - this.offsetTop;
+            const percent = (y/this.offsetHeight)*100;
+            const min = 0.5;
+            const max = 5;
+            const height = Math.round(percent) + '%';
+            const playbackRate = ((percent * (max - min)/100) + min).toFixed(2);
+            bar.style.height = height;
+            bar.textContent = playbackRate+ 'x';
+            video.playbackRate = playbackRate;
+        }
+        speed.addEventListener('mousedown', function(e){
+            speed.addEventListener('mousemove', drag)
+            speed.addEventListener('click', drag)
+        });
+        speed.addEventListener('mouseup', function(){
+            speed.removeEventListener('mousemove', drag);
+        });
+    </script>
+</body>
+
+</html>
